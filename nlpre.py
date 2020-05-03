@@ -29,7 +29,7 @@ class NLPRE:
     def _clean(self, text):
         """null_vals=True, cased=True, brackets=True, hyperlinks=True,
                 punctuation=True, line_breaks=True, nums=True"""
-        text = text.lower()
+        text = str(text).lower()
         text = re.sub('\[.*?\]', '', text)
         text = re.sub('https?://\S+|www\.\S+', '', text)
         text = re.sub('<.*?>+', '', text)
@@ -43,7 +43,7 @@ class NLPRE:
         tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
         return tokenizer.tokenize(text)
 
-    def create_ngrams(self, n, length):
+    def ngrams(self, n, length):
         # realizing that ideally you'd want to implement your own versions
         # of these dependencies, to make your function more robust
 
@@ -51,7 +51,7 @@ class NLPRE:
                                 ngram_range=(n,n)).fit(self.text)
         words = vec.transform(corpus)
         sum_words = words.sum(axis=0)
-        word_freq = sorted([(word, sum_words[0, idx]) for word, idx in vec.vocabulary_.items()],
-                            key = lamnda x: x[1], reverse=True)
+        word_freq = [(word, sum_words[0, idx]) for word, idx in vec.vocabulary_.items()]
+        word_freq =sorted(word_freq, key = lambda x: x[1], reverse=True)
 
         return word_freq[:length]
