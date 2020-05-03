@@ -2,6 +2,9 @@ import re
 import string
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
+from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 class NLPRE:
     def __init__(self, text, columns=None):
