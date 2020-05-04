@@ -1,8 +1,6 @@
 import re
 import string
-from nltk.corpus import stopwords
-from nltk.tokenize import RegexpTokenizer
-from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -11,7 +9,7 @@ class Corpus:
     def __init__(self, text, columns=None, url=False):
         self.text = text
         self.df = False
-        
+
         if columns:
             self.text = text[columns]
             self.df = True
@@ -64,6 +62,10 @@ class Corpus:
         end_idx = idx[2]
         text = text[start_idx:end_idx]
         self.text = ' '.join(text)
+
+    def tokenize():
+        # \w+
+        self.tokenized_text = re.split(r'[,:.])
 
     def ngrams(self, n=1, length=10):
 
