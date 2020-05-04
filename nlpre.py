@@ -1,7 +1,5 @@
 import re
 import string
-from nltk.corpus import stopwords
-from nltk.tokenize import RegexpTokenizer
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -11,7 +9,7 @@ class Corpus:
     def __init__(self, text, columns=None, url=False):
         self.text = text
         self.df = False
-        
+
         if columns:
             self.text = text[columns]
             self.df = True

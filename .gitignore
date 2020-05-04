@@ -3,5 +3,5 @@
 .ipynb_checkpoints
 /data
 Untitled.ipynb
-
+/.venv/
 clean.py
