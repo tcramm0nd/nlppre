@@ -1,8 +1,11 @@
 # nlpre
-Preprocessing for NLP applicaitons. It could also definitely be used for non-nlp applications. Totally your call.Supports pandas dataframs, arrays and lists, as well as strings.
+Preprocessing for NLP applicaitons. It could also definitely be used for non-nlp applications. Totally your call.Supports Pandas DataFrame, arrays and lists, as well as strings.
 
 ## Objects
-`Corpus`: an object that holds the original text, as well as any cleaned or tokenized versions
+`nlpre.Corpus(text, columns=None, url=False)`: an object that holds the original text, as well as any cleaned or tokenized versions
+- **text:** the text you wish to process
+- **columns:** if inputting a Pandas DataFrame, columns is a list or string of the columns to import from that DataFrame.
+- **url:** if True, the `text` field will be instead treated as a URL leading to a .txt file for import.
 
 ## Methods
 `nlpre.Corpus.clean()`: cleans the text, removing html, brackets, etc

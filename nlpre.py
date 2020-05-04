@@ -7,14 +7,22 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 
-class NLPRE:
-    def __init__(self, text, columns=None):
+class Corpus:
+    def __init__(self, text, columns=None, url=False):
+        self.text = text
         self.df = False
+        
         if columns:
             self.text = text[columns]
             self.df = True
-        else:
-            self.text = text
+
+        if url == True:
+            txt = []
+            import urllib.request
+            with urllib.request.urlopen(text) as f:
+                for line in f:
+                    txt.append(line.decode('utf-8'))
+            self.text = ' '.join(txt)
 
     def __len__(self):
         return len(self.text)
@@ -56,10 +64,8 @@ class NLPRE:
         end_idx = idx[2]
         text = text[start_idx:end_idx]
         self.text = ' '.join(text)
-## this doesnt need to be a function! I can apply this to the text object expternally
+
     def ngrams(self, n=1, length=10):
-        # realizing that ideally you'd want to implement your own versions
-        # of these dependencies, to make your function more robust
 
         if 'self.clean_text' not in locals():
             self.clean()
@@ -87,7 +93,7 @@ class NLPRE:
             n_gram = 'Trigrams'
         else:
             n_gram = str(n) + '-grams'
-#cheeeeeee
+
         df = pd.DataFrame()
         df = pd.DataFrame(self.ngrams(n, length), columns=[n_gram, 'Count'])
         plot = sns.barplot(x='Count', y = n_gram, data=df, palette= color)
