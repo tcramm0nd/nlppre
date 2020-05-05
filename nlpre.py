@@ -1,6 +1,6 @@
 import re
 import string
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -62,10 +62,6 @@ class Corpus:
         end_idx = idx[2]
         text = text[start_idx:end_idx]
         self.text = ' '.join(text)
-
-    def tokenize():
-        # \w+
-        self.tokenized_text = re.split(r'[,:.])
 
     def ngrams(self, n=1, length=10):
 
