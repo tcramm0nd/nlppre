@@ -99,3 +99,14 @@ class Corpus:
         del df
 
         return plot
+
+    def tokenize(self, preview=True):
+        pattern = re.compile(r'\W+')
+
+        self.tokenized = pattern.split(self.text)
+
+        if preview:
+            if preview > 0:
+                print(self.tokenized[:preview])
+            else:
+                print(self.tokenized[:10])
