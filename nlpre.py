@@ -1,9 +1,6 @@
 import re
-import string
-from sklearn.feature_extraction.text import CountVectorizer
-import seaborn as sns
-import matplotlib.pyplot as plt
 from _text_cleaning._clean_fns import cleaner
+from _ngrams.ngrams import create, plot
 
 class Corpus:
     def __init__(self, text, columns=None, url=False):
@@ -30,78 +27,27 @@ class Corpus:
             return self.text[item]
         return self.text.split()[item]
 
-    def clean(self, gutenburg=False, null_vals=True, uncased=True, brackets=True, hyperlinks=True,
-                    punctuation=True, line_breaks=True, tabs=True, nums=True):
+    def clean(self, gutenburg=False, uncased=True, brackets=True,
+              hyperlinks=True, punctuation=True, line_breaks=True, tabs=True,
+              nums=True
+              ):
 
-        self.options = {'gutenburg': gutenburg,
-                   'null_vals': null_vals,
-                   'uncased': uncased,
-                   'brackets': (brackets, ''),
-                   'hyperlinks': (hyperlinks, ''),
-                   'punctuation': (punctuation, ''),
-                   'line_breaks': (line_breaks, ''),
-                   'tabs': (tabs, ''),
-                   'nums': (nums, '')
+        self.options = {'gutenburg': [gutenburg],
+                   'uncased': [uncased],
+                   'brackets': [brackets],
+                   'hyperlinks': [hyperlinks],
+                   'punctuation': [punctuation],
+                   'line_breaks': [line_breaks],
+                   'tabs': [tabs],
+                   'nums': [nums]
                   }
         if self.df == True:
             # self.clean_text = self.text.apply(lambda x: self._clean(x))
             self.clean_text = []
             for item in self.text:
-                self.clean_text.append(cleaner(item, options))
+                self.clean_text.append(cleaner(item, self.options))
         else:
-            self.clean_text = cleaner(self.text, options)
-
-    def de_gutenburg(self):
-        text = self.text.split()
-        idx = []
-        for i, w in enumerate(text):
-            if w =='***' and len(idx) < 3:
-                idx.append(i)
-        start_idx = idx[1] + 1
-        end_idx = idx[2]
-        text = text[start_idx:end_idx]
-        self.text = ' '.join(text)
-
-    def ngrams(self, n=1, length=10):
-
-        if 'self.clean_text' not in locals():
-            self.clean()
-
-        if self.df == False:
-            self.clean_text = [self.clean_text]
-
-
-        vec = CountVectorizer(stop_words='english',
-                                ngram_range=(n,n)).fit(self.clean_text)
-        words = vec.transform(self.clean_text)
-        sum_words = words.sum(axis=0)
-        word_freq = [(word, sum_words[0, idx]) for word, idx in vec.vocabulary_.items()]
-        word_freq =sorted(word_freq, key = lambda x: x[1], reverse=True)
-
-        return word_freq[:length]
-
-    def plot_ngram(self, n=1, length=10, color='Blue'):
-        color = color + 's_d'
-        if n == 1:
-            n_gram = 'Unigrams'
-        elif n == 2:
-            n_gram = 'Bigrams'
-        elif n == 3:
-            n_gram = 'Trigrams'
-        else:
-            n_gram = str(n) + '-grams'
-
-        words = []
-        count = []
-        for item in self.ngrams(n, length):
-            words.append(item[0])
-            count.append(item[1])
-        plot = sns.barplot(x=count, y=words, palette=color)
-
-
-
-        return plot
-
+            self.clean_text = cleaner(self.text, self.options)
     def tokenize(self, preview=True):
         pattern = re.compile(r'\W+')
 
@@ -112,3 +58,29 @@ class Corpus:
                 print(self.tokenized[:preview])
             else:
                 print(self.tokenized[:10])
+
+class NGram:
+    def __init__(self, corpus, n=2, length=10):
+        self.n = n
+        self.length = length
+        self.corpus = corpus
+        self.ngram = create(corpus)
+        # return self.ngram
+
+    def __len__(self):
+        return len(self.n_gram)
+
+    def __getitem__(self, item):
+        '''Returns either the count if given a string, or the word and count of
+        a position if given an int'''
+        if type(item) is str:
+            for gram in self.ngram:
+                if gram[0] == item:
+                    return gram
+        elif type(item) is int:
+            return self.ngram[item]
+
+
+
+
+        # return self.ngram
