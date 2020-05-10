@@ -3,6 +3,7 @@ import string
 from sklearn.feature_extraction.text import CountVectorizer
 import seaborn as sns
 import matplotlib.pyplot as plt
+from _text_cleaning._clean_fns import cleaner
 
 class Corpus:
     def __init__(self, text, columns=None, url=False):
@@ -29,30 +30,26 @@ class Corpus:
             return self.text[item]
         return self.text.split()[item]
 
-    def clean(self, gutenburg=False):
-        self.gutenburg = gutenburg
+    def clean(self, gutenburg=False, null_vals=True, uncased=True, brackets=True, hyperlinks=True,
+                    punctuation=True, line_breaks=True, tabs=True, nums=True):
 
+        self.options = {'gutenburg': gutenburg,
+                   'null_vals': null_vals,
+                   'uncased': uncased,
+                   'brackets': (brackets, ''),
+                   'hyperlinks': (hyperlinks, ''),
+                   'punctuation': (punctuation, ''),
+                   'line_breaks': (line_breaks, ''),
+                   'tabs': (tabs, ''),
+                   'nums': (nums, '')
+                  }
         if self.df == True:
             # self.clean_text = self.text.apply(lambda x: self._clean(x))
             self.clean_text = []
             for item in self.text:
-                self.clean_text.append(self._clean(item))
+                self.clean_text.append(cleaner(item, options))
         else:
-            self.clean_text = self._clean(self.text)
-
-    def _clean(self, text):
-        """null_vals=True, cased=True, brackets=True, hyperlinks=True,
-                punctuation=True, line_breaks=True, nums=True"""
-
-        text = str(text).lower()
-        text = re.sub('\[.*?\]', '', text)
-        text = re.sub('https?://\S+|www\.\S+', '', text)
-        text = re.sub('<.*?>+', '', text)
-        text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
-        text = re.sub('\n', ' ', text)
-        text = re.sub('\t', ' ', text)
-        text = re.sub('\w*\d\w*', '', text)
-        return text
+            self.clean_text = cleaner(self.text, options)
 
     def de_gutenburg(self):
         text = self.text.split()
