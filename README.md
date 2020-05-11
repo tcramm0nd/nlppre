@@ -9,6 +9,7 @@ Preprocessing for NLP applicaitons. It could also definitely be used for non-nlp
 
 ### Class Methods
 `nlpre.Corpus.clean(self, gutenburg=False, uncased=True, brackets=True, hyperlinks=True, punctuation=True, line_breaks=True,                     tabs=True, nums=True)` cleans the text, removing html, brackets, etc
+
 `nlpre.Corpus.tokenize(self, preview=True)`: splits a  body of text into a list of words
 
 ## Class: NGram
