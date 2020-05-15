@@ -1,8 +1,0 @@
-README.md
-setup.py
-_text_cleaning/__init__.py
-_text_cleaning/_clean_fns.py
-nlpre.egg-info/PKG-INFO
-nlpre.egg-info/SOURCES.txt
-nlpre.egg-info/dependency_links.txt
-nlpre.egg-info/top_level.txt
