@@ -1,9 +1,11 @@
 from distutils.core import setup
+import setuptools
 
 setup(name='nlpre',
-      version='1.0',
+      version='0.0.1',
       author='Tim Crammond',
       author_email='25987791+tcramm0nd@users.noreply.github.com',
       url='https://github.com/tcramm0nd/nlpre',
-      packages=['nlpe, nlpre._text_cleaning']
+      description= 'A NLP Text Processing tool',
+      packages=setuptools.find_packages()
       )

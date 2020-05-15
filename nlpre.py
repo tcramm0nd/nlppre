@@ -80,6 +80,9 @@ class NGram:
         elif type(item) is int:
             return self.ngram[item]
 
+    def __str__(self):
+        return self.ngram[:10]
+
 
 
 
